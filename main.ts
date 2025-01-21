@@ -2,117 +2,77 @@ namespace SpriteKind {
     export const round = SpriteKind.create()
 }
 sprites.onOverlap(SpriteKind.round, SpriteKind.Enemy, function (sprite, otherSprite) {
-    otherSprite.follow(mySprite)
+	
 })
 scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile2`, function (sprite, location) {
-    level += 1
-    if (level == 0) {
-        tiles.loadMap(tiles.createSmallMap(tilemap`level4`))
-    } else if (level == 1) {
-        tiles.loadMap(tiles.createSmallMap(tilemap`level11`))
-    } else if (level == 2) {
-    	
-    } else if (level == 3) {
-    	
-    } else if (level == 4) {
-    	
-    } else if (level == 5) {
-    	
-    } else if (level == 6) {
-    	
-    } else if (level == 7) {
-    	
-    } else if (level == 8) {
-    	
-    } else if (level == 9) {
-    	
-    }
-    tiles.placeOnRandomTile(mySprite, assets.tile`myTile5`)
-    for (let value of tiles.getTilesByType(assets.tile`myTile3`)) {
-        monster = sprites.create(img`
-            . . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            `, SpriteKind.Enemy)
-        tiles.placeOnTile(monster, value)
-        tiles.setTileAt(value, assets.tile`myTile`)
-        monster.setImage(monsterImageList._pickRandom())
-    }
+	
+})
+info.onLifeZero(function () {
+    sprites.destroyAllSpritesOfKind(SpriteKind.Enemy)
+    controller.moveSprite(mySprite, 0, 0)
+    extraEffects.createSpreadEffectOnAnchor(mySprite, extraEffects.createSingleColorSpreadEffectData(2, ExtraEffectPresetShape.Explosion), 5000, 100)
+    scene.cameraShake(8, 5000)
+    sprites.destroy(mySprite)
+    timer.after(6000, function () {
+        game.gameOver(false)
+    })
 })
 function tilemaps (level: Sprite) {
 	
 }
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite, otherSprite) {
-    lantern.stopLanternEffect()
-    controller.moveSprite(mySprite, 0, 0)
-    extraEffects.createSpreadEffectOnAnchor(mySprite, extraEffects.createSingleColorSpreadEffectData(2, ExtraEffectPresetShape.Explosion), 5000, 100)
-    scene.cameraShake(8, 5000)
-    sprites.destroyAllSpritesOfKind(SpriteKind.Enemy)
-    mySprite.setFlag(SpriteFlag.Invisible, true)
-    timer.after(6000, function () {
-        game.gameOver(false)
-    })
+    info.changeLifeBy(-1)
+    scene.cameraShake(4, 500)
+    extraEffects.createSpreadEffectOnAnchor(mySprite, extraEffects.createSingleColorSpreadEffectData(2, ExtraEffectPresetShape.Spark), 2000, 100)
+    pause(2000)
 })
-let level = 0
 let monster: Sprite = null
 let mySprite: Sprite = null
-let monsterImageList: Image[] = []
-tiles.loadMap(tiles.createSmallMap(tilemap`level4`))
-monsterImageList = [
+tiles.loadMap(tiles.createSmallMap(tilemap`level24`))
+let monsterImageList = [
 img`
     . 1 . . . . 1 . 
     . 1 1 1 1 1 1 . 
-    . 1 2 1 1 2 2 . 
+    . 1 f 1 1 f 1 . 
     . 1 2 1 1 2 1 . 
-    . 1 1 1 1 1 1 . 
     . 1 2 1 1 2 1 . 
-    . . 1 2 2 1 . . 
-    . . . 1 2 . . . 
+    . 1 f 1 1 f 1 . 
+    . . 1 f f 1 . . 
+    . . . 1 1 . . . 
+    `,
+img`
+    . . 2 2 6 6 . . 
+    . . 2 1 6 1 . . 
+    . . 2 6 6 6 . . 
+    . . c 7 2 f 6 2 
+    . . f f f . . . 
+    . . e e 2 . . . 
+    . . 2 . 2 . . . 
+    . . 2 . 2 . . . 
+    `,
+img`
+    . . f f f f . . 
+    . . f 1 f 1 . . 
+    . . f f f f . 2 
+    . . . . f . . 2 
+    . f f f f 2 2 . 
+    . . . . f . . . 
+    . . . f . f . . 
+    . . . f . f . . 
     `,
 img`
     . . . . . . . . 
-    . . 2 2 2 2 e . 
-    . e 2 1 2 1 . . 
-    . . 2 2 2 2 . . 
-    . 2 e 2 e e 2 . 
-    . . e 2 2 2 . . 
-    . . 2 e 2 e . . 
-    . . 2 . . 2 . . 
-    `,
-img`
-    . . f f . . . . 
-    . . 1 f f f . . 
-    f . f f 1 f . . 
-    . f f f f . . . 
-    . f f f f f . . 
-    . f f . . f f . 
-    f f f . f . . f 
-    . f . . . f . . 
-    `,
-img`
-    . . 2 2 2 2 . . 
-    . 2 2 2 2 2 . . 
-    . 2 6 6 6 6 . . 
-    2 2 6 1 6 2 . . 
-    2 . 6 6 6 1 . . 
-    . . 1 1 6 1 . . 
-    . . 1 6 6 6 . . 
-    . . 6 . . 6 . . 
+    . . 2 1 1 1 . . 
+    . 1 2 f f 2 1 . 
+    . 1 f 2 1 f 1 . 
+    . 1 2 2 2 2 1 . 
+    . 2 1 f 2 1 2 . 
+    . . 1 1 2 1 . . 
+    . . . . . . . . 
     `
 ]
+profilelife.setMaxLife(15)
+info.setLife(15)
 mySprite = sprites.create(img`
     . . f f f f . . 
     . f f f f f f . 
@@ -123,8 +83,6 @@ mySprite = sprites.create(img`
     . . c c b c . . 
     . . e . . e . . 
     `, SpriteKind.Player)
-lantern.startLanternEffect(mySprite)
-lantern.setLightBandWidth(7)
 tiles.placeOnRandomTile(mySprite, assets.tile`myTile5`)
 let round2 = sprites.create(img`
     ...........bbbbbbbbbbb...........
@@ -165,6 +123,14 @@ round2.setFlag(SpriteFlag.Invisible, true)
 controller.moveSprite(mySprite)
 scene.cameraFollowSprite(mySprite)
 for (let value of tiles.getTilesByType(assets.tile`myTile3`)) {
+	
+}
+game.onUpdate(function () {
+    if (round2 != null) {
+        round2.setPosition(mySprite.x, mySprite.y)
+    }
+})
+game.onUpdateInterval(1000, function () {
     monster = sprites.create(img`
         . . . . . . . . . . . . . . . . 
         . . . . . . . . . . . . . . . . 
@@ -183,12 +149,7 @@ for (let value of tiles.getTilesByType(assets.tile`myTile3`)) {
         . . . . . . . . . . . . . . . . 
         . . . . . . . . . . . . . . . . 
         `, SpriteKind.Enemy)
-    tiles.placeOnTile(monster, value)
-    tiles.setTileAt(value, assets.tile`myTile`)
+    monster.follow(mySprite, 70)
+    tiles.placeOnRandomTile(monster, assets.tile`myTile7`)
     monster.setImage(monsterImageList._pickRandom())
-}
-game.onUpdate(function () {
-    if (round2 != null) {
-        round2.setPosition(mySprite.x, mySprite.y)
-    }
 })

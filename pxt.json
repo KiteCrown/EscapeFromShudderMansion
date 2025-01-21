@@ -1,12 +1,19 @@
 {
-    "name": "ten rooms until dawn",
+    "name": "ten minutes until dawn",
     "description": "",
     "dependencies": {
         "device": "*",
         "pxt-lantern": "github:felixtsu/pxt-lantern#v0.2.1",
         "Extra Effects": "github:alexszeto/extra-effects#v3.1.0",
         "Timers": "github:microsoft/arcade-timers#v1.1.0",
-        "tilemaps": "github:microsoft/pxt-tilemaps#v1.12.0"
+        "tilemaps": "github:microsoft/pxt-tilemaps#v1.12.0",
+        "arcade-sprite-util": "github:jwunderl/arcade-sprite-util#v0.4.1",
+        "arcade-premium-life": "github:jwunderl/arcade-premium-life#v0.2.1",
+        "arcade-split-screen": "github:riknoll/arcade-split-screen#v0.0.3",
+        "arcade-shader": "github:riknoll/arcade-shader#d2a2572906fdb68ff429f337e30606b069e688ea",
+        "TilemapPath": "github:UnsignedArduino/TilemapPath#27ff80b905e9a311d3e36aecbf38fd1fd23af8ca",
+        "pxt-sight": "github:felixtsu/pxt-sight#v0.2.2",
+        "FastRandomBlocks": "github:UnsignedArduino/Fast-Random-Blocks#8c985a77e5c4278e43a7bc375db095c67afb58ed"
     },
     "files": [
         "main.blocks",
